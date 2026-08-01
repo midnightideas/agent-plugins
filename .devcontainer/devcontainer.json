@@ -1,0 +1,43 @@
+{
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "mhutchie.git-graph",
+                "GitHub.copilot-chat",
+                "Anthropic.claude-code"
+            ],
+            "settings": {
+                "remote.autoForwardPorts": false,
+                "terminal.integrated.profiles.linux": {
+                    "Claude Code": {
+                        "args": [
+                            "--permission-mode",
+                            "auto"
+                        ],
+                        "icon": "claude",
+                        "path": "/usr/local/bin/vscode-terminal-claude-code"
+                    },
+                    "Claude Code (Agent view)": {
+                        "args": [
+                            "agents"
+                        ],
+                        "icon": "claude",
+                        "path": "/usr/local/bin/vscode-terminal-claude-code"
+                    },
+                    "GitHub Copilot CLI": null
+                }
+            }
+        }
+    },
+    "features": {
+        "ghcr.io/tailscale/codespace/tailscale": {}
+    },
+    "postStartCommand": "/usr/local/bin/postStartCommand.sh",
+    "runArgs": [
+        "--shm-size=2gb",
+        "--env-file=${localEnv:HOME}/.devcontainer.env"
+    ]
+}

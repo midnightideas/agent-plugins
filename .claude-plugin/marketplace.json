@@ -1,0 +1,23 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "local",
+  "description": "Local marketplace for the github-task-manager plugin",
+  "owner": {
+    "name": "kafilio",
+    "email": "noreply@github.com"
+  },
+  "plugins": [
+    {
+      "name": "github-task-manager",
+      "description": "Manage and complete tasks tracked in GitHub issues. Provides the /complete-tasks skill for issue delegation and progress tracking.",
+      "version": "1.0.0",
+      "author": {
+        "name": "kafilio",
+        "email": "noreply@github.com"
+      },
+      "source": "./plugins/github-task-manager",
+      "category": "productivity",
+      "homepage": "https://github.com/kafilios/agent-plugin-github-task-manager"
+    }
+  ]
+}

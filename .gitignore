@@ -1,0 +1,6 @@
+*.backup.*
+.claude/settings.local.json
+.claude/settings.local.*
+.claude/.credentials.json
+.claude/local/
+.DS_Store

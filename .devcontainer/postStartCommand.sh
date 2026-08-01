@@ -32,7 +32,7 @@ bootstrap_dotfiles() {
     return
   fi
 
-  if ! npx -y "$url"; then
+  if ! npm_config_allow_git=root npx -y "$url"; then
     log "WARN" "npx bootstrap failed for $url"
   fi
 }

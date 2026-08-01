@@ -11,16 +11,16 @@ if [ -n "${AGENT_GITHUB_TOKEN:-}" ]; then
 fi
 
 # Git identity — only set if the corresponding AGENT_ var is non-empty
-if [ -n "${AGENT_GIT_AUTHOR_NAME:-}" ]; then
-  export GIT_AUTHOR_NAME="$AGENT_GIT_AUTHOR_NAME"
-  export GIT_COMMITTER_NAME="$AGENT_GIT_AUTHOR_NAME"
-  unset AGENT_GIT_AUTHOR_NAME
+if [ -n "${AGENT_GIT_USER_NAME:-}" ]; then
+  export GIT_AUTHOR_NAME="$AGENT_GIT_USER_NAME"
+  export GIT_COMMITTER_NAME="$AGENT_GIT_USER_NAME"
+  unset AGENT_GIT_USER_NAME
 fi
 
-if [ -n "${AGENT_GIT_AUTHOR_EMAIL:-}" ]; then
-  export GIT_AUTHOR_EMAIL="$AGENT_GIT_AUTHOR_EMAIL"
-  export GIT_COMMITTER_EMAIL="$AGENT_GIT_AUTHOR_EMAIL"
-  unset AGENT_GIT_AUTHOR_EMAIL
+if [ -n "${AGENT_GIT_USER_EMAIL:-}" ]; then
+  export GIT_AUTHOR_EMAIL="$AGENT_GIT_USER_EMAIL"
+  export GIT_COMMITTER_EMAIL="$AGENT_GIT_USER_EMAIL"
+  unset AGENT_GIT_USER_EMAIL
 fi
 
 exec claude "$@"

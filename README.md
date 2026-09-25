@@ -1,3 +1,5 @@
+[![Open in DevPod!](https://devpod.sh/assets/open-in-devpod.svg)](https://devpod.sh/open#https://github.com/kafilios/agent-plugins)
+
 # github-task-manager
 
 A Claude Code plugin for managing tasks via GitHub issues in the current repository.

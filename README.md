@@ -1,88 +1,89 @@
 [![Open in DevPod!](https://devpod.sh/assets/open-in-devpod.svg)](https://devpod.sh/open#https://github.com/kafilios/agent-plugins)
 
-# github-task-manager
+# agent-plugins
 
-A Claude Code plugin for managing tasks via GitHub issues in the current repository.
+Distribution marketplace for Claude Code plugins (catalog name: `d-agent-plugins`).
 
-## What It Does
+This repo is **only** a distribution surface: each plugin's source lives
+in its own repo, and pushes into this repo happen via that source repo's
+`./scripts/publish`. Nothing in this repo builds or runs plugin logic;
+the catalog at `.claude-plugin/marketplace.json` is the only thing
+maintained by hand here.
 
-- Fetches and processes open GitHub issues from the repository where Claude is running
-- Proposes solutions, provides updates, and suggests next steps for each issue
-- Never closes issues — you remain solely responsible for closing
-- Uses `needs-input` labels to mark issues blocked on your response
-- Cleans up orphaned `needs-input` labels from closed issues
+## Available plugins
 
-## Plugin Structure
+| Name | Description | Source |
+| ---- | ----------- | ------ |
+| `github-task-manager` | Manage and complete tasks tracked in GitHub issues. Provides the `/complete-tasks` skill. | [`kafilios/agent-plugin-github-task-manager`](https://github.com/kafilios/agent-plugin-github-task-manager) |
 
-```
-github-task-manager/
-├── .claude-plugin/
-│   └── marketplace.json           # Marketplace catalog for local dev
-├── plugins/
-│   └── github-task-manager/
-│       ├── .claude-plugin/
-│       │   └── plugin.json        # Plugin manifest
-│       └── skills/
-│           └── complete-tasks/
-│               └── SKILL.md       # The skill definition
-└── README.md
-```
+## Installation (end users)
 
-## Installation (Local Development)
-
-This repo is set up so that `.claude/settings.json` declares a project-local
-marketplace pointing at the repo itself. Once `/reload-plugins` has been run in
-Claude Code, the plugin is enabled automatically for this project — no
-commit/push needed for inner dev loop.
-
-```
-/reload-plugins
-```
-
-Then use the skill directly:
-
-```
-/complete-tasks
-```
-
-Trigger phrases:
-- "Please complete all the outstanding tasks in the GitHub issues for this repository."
-- "What's the current status of all open issues?"
-- "Work on your assigned issues"
-
-## Installation (Published)
-
-To publish the plugin for others to install via a marketplace, replace the
-`directory` source in `.claude/settings.json` with a git URL:
+Once this repo is registered as a marketplace in your `.claude/settings.json`,
+install any plugin by name:
 
 ```json
 {
   "extraKnownMarketplaces": {
-    "github-task-manager": {
+    "d-agent-plugins": {
       "source": {
         "source": "git",
-        "url": "https://github.com/kafilios/agent-plugin-github-task-manager.git"
+        "url": "https://github.com/kafilios/agent-plugins.git"
       }
     }
+  },
+  "enabledPlugins": {
+    "github-task-manager@d-agent-plugins": true
   }
 }
 ```
 
-Users can then install with:
-
 ```
-/plugin install github-task-manager@github-task-manager
+/plugin install github-task-manager@d-agent-plugins
 ```
 
-## Requirements
+## Plugin source repos
 
-- `gh` CLI installed and authenticated
-- GitHub authentication via `gh auth login`
+Each plugin in the catalog points at its own source repo via `homepage`.
+That source repo owns:
 
-## Workflow
+- The plugin manifest (`<source>/plugins/<slug>/.claude-plugin/plugin.json`)
+- The skill files (`<source>/plugins/<slug>/skills/<skill>/SKILL.md`)
+- The `./scripts/publish` script that pushes new versions here
 
-1. Claude fetches all open issues assigned to the current user from the repo
-2. Cleans up any `needs-input` labels on closed issues
-3. Processes each issue in order (oldest first)
-4. Adds progress comments and proposes solutions via PRs
-5. Reports a summary when done
+The publish script only copies the manifest and skills — it never edits
+`.claude-plugin/marketplace.json` in this repo.
+
+## Adding a new plugin
+
+1. Stand up the source repo (e.g. `kafilios/agent-plugin-<your-plugin>`)
+   with `plugins/<your-plugin>/.claude-plugin/plugin.json` and
+   `plugins/<your-plugin>/skills/<your-skill>/SKILL.md`.
+2. Add a `./scripts/publish` script in that repo, modelled on the one in
+   `kafilios/agent-plugin-github-task-manager/scripts/publish`.
+3. Run the script once to seed `plugins/<your-plugin>/` here.
+4. Open a hand-edited PR against this repo adding a new entry to the
+   `plugins` array in `.claude-plugin/marketplace.json`.
+
+Step 4 is the only one that touches this repo's source-of-truth file.
+The catalog is hand-curated on purpose — every entry is reviewed before
+it ships to end users.
+
+## Layout
+
+```
+agent-plugins/
+├── .claude-plugin/
+│   └── marketplace.json           # hand-curated catalog (`name: "d-agent-plugins"`)
+├── plugins/
+│   └── <plugin-slug>/             # one folder per plugin
+│       ├── .claude-plugin/
+│       │   └── plugin.json
+│       └── skills/
+│           └── <skill-name>/SKILL.md
+├── README.md                      # this file
+└── CLAUDE.md                      # agent guidance for working in this repo
+```
+
+No `IMPLEMENTATION_NOTES.md`, no `docs/`, no scripts. If something here
+needs to change beyond the catalog, it almost certainly belongs in the
+plugin's source repo instead.

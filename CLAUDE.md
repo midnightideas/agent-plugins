@@ -1,13 +1,16 @@
-# github-task-manager Skill Distribution
+# Distribution Marketplace (`d-agent-plugins`)
 
-This repository is the distribution source for the `github-task-manager` Claude skill.
+Distribution marketplace (catalog `name: "d-agent-plugins"`). Plugins
+from source repos (e.g. `kafilios/agent-plugin-github-task-manager`)
+are pushed here by their own `./scripts/publish` scripts — this repo
+does not run a publish script.
 
 # CLAUDE.md
 
 ## Skills
 
 - Skills live in `plugins/github-task-manager/skills/<skill-name>/SKILL.md`
-- This repo is the distribution source for the `github-task-manager` plugin
+- This repo distributes the `github-task-manager` plugin (marketplace `d-agent-plugins`); the source repo is `kafilios/agent-plugin-github-task-manager`
 
 ## Skill Development
 
@@ -17,10 +20,15 @@ This repository is the distribution source for the `github-task-manager` Claude 
 ## Plugin Distribution
 
 - Plugin lives at `plugins/<name>/.claude-plugin/plugin.json` + `plugins/<name>/skills/`
-- Marketplace catalog at `.claude-plugin/marketplace.json` (lists each plugin with `source: "./plugins/<name>"`)
-- `.claude/settings.json` (gitignored) declares a `directory` source at `.` and enables the plugin; `/reload-plugins` picks up uncommitted edits — no commit/push needed for local dev
+- Marketplace catalog at `.claude-plugin/marketplace.json` (`name: "d-agent-plugins"`, lists each plugin with `source: "./plugins/<name>"`)
+- Catalog is hand-curated. Adding a new plugin means a hand-edited PR adding an entry to `plugins[]`; the publish script does not edit this file.
 - For published distribution, swap the `directory` source for `git` (URL or `github` repo)
 - Plugins are not auto-enabled by being declared in a marketplace; `enabledPlugins: true` is required
+
+## How plugins land here
+
+- Source repos push via their own `./scripts/publish`. That script only copies `plugins/<slug>/.claude-plugin/plugin.json` and `plugins/<slug>/skills/*` — it never touches `marketplace.json`.
+- Catalog entries (the `plugins` array in `.claude-plugin/marketplace.json`) are added by hand when adopting a new plugin from a new source repo.
 
 ## GitHub Integration
 

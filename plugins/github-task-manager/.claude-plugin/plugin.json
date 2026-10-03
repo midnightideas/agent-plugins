@@ -1,7 +1,7 @@
 {
   "name": "github-task-manager",
   "description": "Manage and complete tasks tracked in GitHub issues. Provides the /complete-tasks skill for issue delegation and progress tracking.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": {
     "name": "kafilio",
     "email": "noreply@github.com"

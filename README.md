@@ -1,8 +1,8 @@
-[![Open in DevPod!](https://devpod.sh/assets/open-in-devpod.svg)](https://devpod.sh/open#https://github.com/kafilios/agent-plugins)
+[![Open in DevPod!](https://devpod.sh/assets/open-in-devpod.svg)](https://devpod.sh/open#https://github.com/midnightideas/agent-plugins)
 
 # agent-plugins
 
-Distribution marketplace for Claude Code plugins (catalog name: `d-agent-plugins`).
+Distribution marketplace for Claude Code plugins (catalog name: `midnightideas`).
 
 This repo is **only** a distribution surface: each plugin's source lives
 in its own repo, and pushes into this repo happen via that source repo's
@@ -12,9 +12,9 @@ maintained by hand here.
 
 ## Available plugins
 
-| Name | Description | Source |
-| ---- | ----------- | ------ |
-| `github-task-manager` | Manage and complete tasks tracked in GitHub issues. Provides the `/complete-tasks` skill. | [`kafilios/agent-plugin-github-task-manager`](https://github.com/kafilios/agent-plugin-github-task-manager) |
+| Name | Description |
+| ---- | ----------- |
+| `github-task-manager` | Manage and complete tasks tracked in GitHub issues. Provides the `/complete-tasks` skill. |
 
 ## Installation (end users)
 
@@ -24,21 +24,21 @@ install any plugin by name:
 ```json
 {
   "extraKnownMarketplaces": {
-    "d-agent-plugins": {
+    "midnightideas": {
       "source": {
         "source": "git",
-        "url": "https://github.com/kafilios/agent-plugins.git"
+        "url": "https://github.com/midnightideas/agent-plugins.git"
       }
     }
   },
   "enabledPlugins": {
-    "github-task-manager@d-agent-plugins": true
+    "github-task-manager@midnightideas": true
   }
 }
 ```
 
 ```
-/plugin install github-task-manager@d-agent-plugins
+/plugin install github-task-manager@midnightideas
 ```
 
 ## Plugin source repos
@@ -55,11 +55,12 @@ The publish script only copies the manifest and skills — it never edits
 
 ## Adding a new plugin
 
-1. Stand up the source repo (e.g. `kafilios/agent-plugin-<your-plugin>`)
+1. Stand up the source repo (e.g. `<org>/agent-plugin-<your-plugin>`)
    with `plugins/<your-plugin>/.claude-plugin/plugin.json` and
    `plugins/<your-plugin>/skills/<your-skill>/SKILL.md`.
-2. Add a `./scripts/publish` script in that repo, modelled on the one in
-   `kafilios/agent-plugin-github-task-manager/scripts/publish`.
+2. Add a `./scripts/publish` script in that repo that copies the manifest
+   and skills into this repo's `plugins/<your-plugin>/` directory and
+   pushes a commit.
 3. Run the script once to seed `plugins/<your-plugin>/` here.
 4. Open a hand-edited PR against this repo adding a new entry to the
    `plugins` array in `.claude-plugin/marketplace.json`.
@@ -73,7 +74,7 @@ it ships to end users.
 ```
 agent-plugins/
 ├── .claude-plugin/
-│   └── marketplace.json           # hand-curated catalog (`name: "d-agent-plugins"`)
+│   └── marketplace.json           # hand-curated catalog (`name: "midnightideas"`)
 ├── plugins/
 │   └── <plugin-slug>/             # one folder per plugin
 │       ├── .claude-plugin/

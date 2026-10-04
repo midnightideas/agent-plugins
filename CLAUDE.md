@@ -1,16 +1,15 @@
-# Distribution Marketplace (`d-agent-plugins`)
+# Distribution Marketplace (`midnightideas`)
 
-Distribution marketplace (catalog `name: "d-agent-plugins"`). Plugins
-from source repos (e.g. `kafilios/agent-plugin-github-task-manager`)
-are pushed here by their own `./scripts/publish` scripts — this repo
-does not run a publish script.
+Distribution marketplace (catalog `name: "midnightideas"`). Plugins
+from source repos are pushed here by their own `./scripts/publish`
+scripts — this repo does not run a publish script.
 
 # CLAUDE.md
 
 ## Skills
 
 - Skills live in `plugins/github-task-manager/skills/<skill-name>/SKILL.md`
-- This repo distributes the `github-task-manager` plugin (marketplace `d-agent-plugins`); the source repo is `kafilios/agent-plugin-github-task-manager`
+- This repo distributes the `github-task-manager` plugin (marketplace `midnightideas`)
 
 ## Skill Development
 
@@ -20,7 +19,7 @@ does not run a publish script.
 ## Plugin Distribution
 
 - Plugin lives at `plugins/<name>/.claude-plugin/plugin.json` + `plugins/<name>/skills/`
-- Marketplace catalog at `.claude-plugin/marketplace.json` (`name: "d-agent-plugins"`, lists each plugin with `source: "./plugins/<name>"`)
+- Marketplace catalog at `.claude-plugin/marketplace.json` (`name: "midnightideas"`, lists each plugin with `source: "./plugins/<name>"`)
 - Catalog is hand-curated. Adding a new plugin means a hand-edited PR adding an entry to `plugins[]`; the publish script does not edit this file.
 - For published distribution, swap the `directory` source for `git` (URL or `github` repo)
 - Plugins are not auto-enabled by being declared in a marketplace; `enabledPlugins: true` is required

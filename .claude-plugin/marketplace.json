@@ -1,6 +1,6 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "d-agent-plugins",
+  "name": "midnightideas",
   "description": "Distribution marketplace for plugins (github-task-manager, etc.)",
   "owner": {
     "name": "kafilio",
